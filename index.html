@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .box {
+      height: 100px;
+      border: 2px solid #000;
+      text-align: center;
+      line-height: 100px;
+      margin-bottom: 10px;
+      background-color: #9da178;
+      border-radius: 8px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .selected {
+      background-color: #6d7053;
+    }
+  </style>
+</head>
+<body class="page">
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      const page = document.getElementsByClassName('page')[0];
+
+      for (let i = 0; i < 100; i++) {
+        const div = document.createElement('div');
+
+        div.className = 'box';
+        div.textContent = 'Div number ' + (i + 1);
+        div.id = i;
+        page.appendChild(div);
+        div.addEventListener('click', handleClick);
+      }
+
+      function handleClick(event) {
+        const clickedDiv = event.target;
+        const clickedId = Number(clickedDiv.id);
+        const divElements = page.getElementsByClassName('box');
+
+
+        if (clickedDiv.classList.contains('selected')) {
+          clickedDiv.classList.remove('selected');
+          let unselectedId = 0;
+
+          for (let i = clickedId; i < divElements.length; i++ ) {
+            if (!(divElements[i].classList.contains('selected'))) {
+              unselectedId = i;
+              page.insertBefore(clickedDiv, divElements[unselectedId + 1]);
+
+              return;
+            }
+          }
+        }
+
+        clickedDiv.classList.add('selected');
+        page.insertBefore(clickedDiv, divElements[0]);
+      }
+    });
+  </script>
+</body>
+</html>
